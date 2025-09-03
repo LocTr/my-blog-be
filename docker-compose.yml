@@ -1,0 +1,38 @@
+services:
+  my-blog-app:
+    container_name: my-blog-app
+    image: my-blog-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: "host=my-blog-db user=postgres password=postgres dbname=postgres sslmode=disable"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - my-blog-db
+  my-blog-db:
+    container_name: my-blog-db
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - my-blog-db-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8081:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  my-blog-db-data: {}
+  pgadmin-data: {}

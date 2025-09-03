@@ -1,0 +1,22 @@
+meta {
+  name: ff
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"john",
+    "email":"doe@email.mail"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
